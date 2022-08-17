@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.default')
 @section('css')
 <style type="text/css">
     .card-recent {

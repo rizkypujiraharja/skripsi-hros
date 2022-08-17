@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
         foreach ($usersCollection as $employee) {
             $user = new User;
             $user->name = $employee->name;
-            $user->email = str_replace(" ", "", $employee->name) . '@ordivo.id';
+            $user->email = str_replace(" ", "", strtolower($employee->name)) . '@ordivo.id';
             $user->nip = $employee->nip;
             $user->ktp = rand(1000000000000000, 9999999999999999);
             $user->npwp = rand(1000000000000000, 9999999999999999);

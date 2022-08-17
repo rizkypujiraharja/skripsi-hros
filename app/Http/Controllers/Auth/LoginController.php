@@ -41,9 +41,6 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        if ($user->isUser()) { // do your magic here
-            return redirect()->route('app.index');
-        }
         return redirect('/');
     }
 }

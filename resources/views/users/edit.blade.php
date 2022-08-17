@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.default')
 
 @section('content')
   <div class="main-content">
@@ -22,12 +22,13 @@
                 <h4>Data Pegawai Baru</h4>
               </div>
               <div class="card-body">
-                <form class="form" action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+                <form class="form" action="{{ route('users.update', $user) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="form-group row align-items-center">
                         <label for="site-title" class="form-control-label col-sm-3 text-md-right">Nomor Induk Pegawai</label>
                         <div class="col-sm-6 col-md-9 col-lg-6">
-                            <input type="text" value="{{ old('nip') }}" name="nip" class="@error('nip') is-invalid @enderror form-control">
+                            <input type="text" value="{{ old('nip') ?? $user->nip }}" name="nip" class="@error('nip') is-invalid @enderror form-control" {{ request()->user()->isKeuangan() ? 'readonly' : '' }}>
                             @error('nip')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -38,7 +39,7 @@
                     <div class="form-group row align-items-center">
                         <label for="site-title" class="form-control-label col-sm-3 text-md-right">Nama Lengkap</label>
                         <div class="col-sm-6 col-md-9 col-lg-6">
-                            <input type="text" value="{{ old('name') }}" name="name" class="@error('name') is-invalid @enderror form-control">
+                            <input type="text" value="{{ old('name') ?? $user->name }}" name="name" class="@error('name') is-invalid @enderror form-control" {{ request()->user()->isKeuangan() ? 'readonly' : '' }}>
                             @error('name')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -50,11 +51,19 @@
                     <div class="form-group row align-items-center">
                         <label for="site-title" class="form-control-label col-sm-3 text-md-right">Jabatan</label>
                         <div class="col-sm-6 col-md-9 col-lg-6">
-                            <select name="jabatan_id" class="form-control">
-                                <option value="">-- Pilih Jabatan --</option>
-                                @foreach ($jabatans as $jabatan)
-                                    <option value="{{ $jabatan->id }}">{{ $jabatan->name }}</option>
-                                @endforeach
+                            <select name="jabatan_id" class="form-control" {{ request()->user()->isKeuangan() ? 'readonly' : '' }}>
+                                @if(request()->user()->isKeuangan())
+                                    @foreach ($jabatans as $jabatan)
+                                    @if($jabatan->id == $user->jabatan_id)
+                                    <option value="{{ $jabatan->id }}" {{ $jabatan->id == $user->jabatan_id ? 'selected' : ''}}>{{ $jabatan->name }}</option>
+                                    @endif
+                                    @endforeach
+                                @else
+                                    <option value="">-- Pilih Jabatan --</option>
+                                    @foreach ($jabatans as $jabatan)
+                                        <option value="{{ $jabatan->id }}" {{ $jabatan->id == $user->jabatan_id ? 'selected' : ''}}>{{ $jabatan->name }}</option>
+                                    @endforeach
+                                @endif
                             </select>
                             @error('jabatan_id')
                             <div class="invalid-feedback">
@@ -67,7 +76,7 @@
                     <div class="form-group row align-items-center">
                         <label for="site-title" class="form-control-label col-sm-3 text-md-right">Limit Pembelian</label>
                         <div class="col-sm-6 col-md-9 col-lg-6">
-                            <input type="number" value="{{ old('limit_balance') ?? 1000000 }}" name="limit_balance" class="@error('limit_balance') is-invalid @enderror form-control">
+                            <input type="number" value="{{ old('limit_balance') ?? $user->limit_balance }}" name="limit_balance" class="@error('limit_balance') is-invalid @enderror form-control">
                             @error('limit_balance')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -79,7 +88,7 @@
                     <div class="form-group row align-items-center">
                         <label for="site-title" class="form-control-label col-sm-3 text-md-right">Alamat</label>
                         <div class="col-sm-6 col-md-9 col-lg-6">
-                            <input type="text" value="{{ old('address') }}" name="address" class="@error('address') is-invalid @enderror form-control">
+                            <input type="text" value="{{ old('address') ?? $user->address }}" name="address" class="@error('address') is-invalid @enderror form-control" {{ request()->user()->isKeuangan() ? 'readonly' : '' }}>
                             @error('address')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -90,7 +99,7 @@
                     <div class="form-group row align-items-center">
                         <label for="site-title" class="form-control-label col-sm-3 text-md-right">Telepon</label>
                         <div class="col-sm-6 col-md-9 col-lg-6">
-                            <input type="text" value="{{ old('phone') }}" name="phone" class="@error('phone') is-invalid @enderror form-control">
+                            <input type="text" value="{{ old('phone') ?? $user->phone }}" name="phone" class="@error('phone') is-invalid @enderror form-control" {{ request()->user()->isKeuangan() ? 'readonly' : '' }}>
                             @error('phone')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -99,6 +108,7 @@
                         </div>
                     </div>
 
+                    @if(!request()->user()->isKeuangan())
                     <div class="form-group row align-items-center">
                         <label for="site-title" class="form-control-label col-sm-3 text-md-right">Foto</label>
                         <div class="col-sm-6 col-md-9 col-lg-6">
@@ -106,6 +116,7 @@
                                 <label for="image-upload" id="image-label">Choose File</label>
                                 <input type="file" name="photo" id="image-upload" accept="image/*" />
                             </div>
+                            <span class="text-small text-info">*Kosongkan jika tidak ingin diubah</span>
                             @error('photo')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -113,11 +124,12 @@
                             @enderror
                         </div>
                     </div>
+                    @endif
 
                     <div class="form-group row align-items-center">
                         <label for="site-title" class="form-control-label col-sm-3 text-md-right">Email</label>
                         <div class="col-sm-6 col-md-9 col-lg-6">
-                            <input type="text" value="{{ old('email') }}" name="email" class="@error('email') is-invalid @enderror form-control">
+                            <input type="text" value="{{ old('email') ?? $user->email }}" name="email" class="@error('email') is-invalid @enderror form-control" {{ request()->user()->isKeuangan() ? 'readonly' : '' }}>
                             @error('email')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -125,14 +137,15 @@
                             @enderror
                         </div>
                     </div>
+                    @if(request()->user()->isAdministrator())
                     <div class="form-group row align-items-center">
                         <label for="site-title" class="form-control-label col-sm-3 text-md-right">Role</label>
                         <div class="col-sm-6 col-md-9 col-lg-6">
                             <select name="role" class="@error('role') is-invalid @enderror form-control select2">
-                                {{-- <option value="administrator">Administrator</option> --}}
-                                <option value="admin">Admin</option>
-                                <option value="user">User</option>
-                                <option value="keuangan">Keuangan</option>
+                                {{-- <option value="administrator" {{ $user->role == 'adminsitrator' ? 'selected' : '' }}>Administrator</option> --}}
+                                <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                                <option value="keuangan" {{ $user->role == 'keuangan' ? 'selected' : '' }}>Keuangan</option>
                             </select>
                             @error('role')
                             <div class="invalid-feedback">
@@ -141,11 +154,16 @@
                             @enderror
                         </div>
                     </div>
+                    @else
+                    <input type="hidden" name="role" value="{{ $user->role }}" />
+                    @endif
 
+                    @if(!request()->user()->isKeuangan())
                     <div class="form-group row align-items-center">
                         <label for="site-title" class="form-control-label col-sm-3 text-md-right">Password</label>
                         <div class="col-sm-6 col-md-9 col-lg-6">
-                            <input type="password" name="password" class="@error('password') is-invalid @enderror form-control">
+                            <input type="password" name="password" class="@error('password') is-invalid @enderror form-control" {{ request()->user()->isKeuangan() ? 'readonly' : '' }}>
+                            <span class="text-small text-info">*Kosongkan jika tidak ingin diubah</span>
                             @error('password')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -153,6 +171,8 @@
                             @enderror
                         </div>
                     </div>
+                    @endif
+
                     <div class="form-group row align-items-center">
                         <label for="site-title" class="form-control-label col-sm-3 text-md-right"></label>
                         <div class="col-sm-6 col-md-9 col-lg-6">

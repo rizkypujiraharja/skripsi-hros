@@ -1,11 +1,11 @@
-@extends(request()->user()->isUser() ? 'layouts.app' : 'layouts.admin')
+@extends('layouts.default')
 
 @section('content')
   <div class="main-content">
     <section class="section">
       <div class="section-header">
         <div class="section-header-back">
-            <a href="{{ route('users.index') }}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
+            <a href="{{ route('index') }}" class="btn btn-icon"><i class="fas fa-arrow-left"></i></a>
         </div>
         <h1>Profile</h1>
         <div class="section-header-breadcrumb">
@@ -51,17 +51,6 @@
                         <div class="col-sm-6 col-md-9 col-lg-6">
                             <input type="text" value="{{ old('address') ?? $user->address }}" name="address" class="@error('address') is-invalid @enderror form-control">
                             @error('address')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="form-group row align-items-center">
-                        <label for="site-title" class="form-control-label col-sm-3 text-md-right">Telepon</label>
-                        <div class="col-sm-6 col-md-9 col-lg-6">
-                            <input type="text" value="{{ old('phone') ?? $user->phone }}" name="phone" class="@error('phone') is-invalid @enderror form-control">
-                            @error('phone')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
