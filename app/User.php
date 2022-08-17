@@ -2,9 +2,7 @@
 
 namespace App;
 
-use App\Models\Jabatan;
-use App\Models\Order;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Storage;
@@ -49,55 +47,13 @@ class User extends Authenticatable
         return Null;
     }
 
-    public function orders()
+    /**
+     * Get all of the attendances for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attendances(): HasMany
     {
-        return $this->hasMany(Order::class);
-    }
-
-    public function jabatan()
-    {
-        return $this->belongsTo(Jabatan::class);
-    }
-
-    public function getLimitRemainingAdminAttribute()
-    {
-        $usage = $this->orders()
-            ->whereBetween('status', [1, 3])
-            ->where('created_at', ">=", now()->startOfMonth())
-            ->withSum('details', 'sub_total_price')
-            ->get()
-            ->sum('details_sum_sub_total_price');
-        return $this->limit_balance - $usage;
-    }
-
-    public function getLimitRemainingUserAttribute()
-    {
-        $usage = $this->orders()
-            ->where('created_at', ">=", now()->startOfMonth())
-            ->where('status', '<=', 4)
-            ->withSum('details', 'sub_total_price')
-            ->get()
-            ->sum('details_sum_sub_total_price');
-        return $this->limit_balance - $usage;
-    }
-
-    public function isUser()
-    {
-        return $this->role == 'user';
-    }
-
-    public function isAdmin()
-    {
-        return $this->role == 'admin';
-    }
-
-    public function isAdministrator()
-    {
-        return $this->role == 'administrator';
-    }
-
-    public function isKeuangan()
-    {
-        return $this->role == 'keuangan';
+        return $this->hasMany(Attendance::class);
     }
 }

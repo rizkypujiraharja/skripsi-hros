@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Division;
 use Illuminate\Database\Seeder;
 use App\User;
+use Illuminate\Support\Facades\Storage;
 
 class UserSeeder extends Seeder
 {
@@ -14,14 +16,26 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $user = new User;
-        $user->nip = '111111111111';
-        $user->name = 'Bambang Nurhidayat';
-        $user->address = 'Baleendah, Bandung';
-        $user->photo = '';
-        $user->email = 'gina@ordivo.com';
-        $user->password = bcrypt('secret123');
-        $user->role = 'hrd';
-        $user->save();
+        $usersCollection = collect(
+            json_decode(Storage::disk('local')->get('employee.json'))
+        )->sortBy('nip')->values();
+        $divisions = Division::all();
+
+        foreach ($usersCollection as $employee) {
+            $user = new User;
+            $user->name = $employee->name;
+            $user->email = str_replace(" ", "", $employee->name) . '@ordivo.id';
+            $user->nip = $employee->nip;
+            $user->ktp = rand(1000000000000000, 9999999999999999);
+            $user->npwp = rand(1000000000000000, 9999999999999999);
+            $user->address = 'Bandung';
+            $user->password = bcrypt('password');
+            $user->role = isset($employee->role) ? $employee->role : 'employee';
+            $user->birth_date = now()->subYears(rand(19, 30))->subDays(rand(1, 356));
+            $user->sallary = $employee->sallary;
+            $user->position = $employee->position;
+            $user->division_id = $divisions->where('name', $employee->division)->first()->id;
+            $user->save();
+        }
     }
 }

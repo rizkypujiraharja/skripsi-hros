@@ -23,7 +23,7 @@ class CreateAttendancesTable extends Migration
             $table->string('status');
             $table->string('type');
             $table->string('description')->nullable();
-            $table->string('file');
+            $table->string('file')->nullable();
             $table->timestamps();
         });
     }
