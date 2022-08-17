@@ -1,0 +1,8 @@
+#!/bin/bash
+
+MESSAGE=$(cat $1)
+COMMITFORMAT="^(feat|fix|docs|style|refactor|test|chore)(\((.*)\))?: (.*)$"
+
+if ! [[ "$MESSAGE" =~ $COMMITFORMAT ]]; then
+  exit 1
+fi
