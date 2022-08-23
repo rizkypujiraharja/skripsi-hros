@@ -17,4 +17,38 @@ class Attendance extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getStatusBadgeAttribute()
+    {
+        switch ($this->status) {
+            case 'pending':
+                return "<span class='badge badge-warning'>Pending</span>";
+
+            case 'rejected':
+                return "<span class='badge badge-danger'>Rejected</span>";
+
+            default:
+                return "<span class='badge badge-success'>Approved</span>";
+        }
+    }
+
+    public function getTypeBadgeAttribute()
+    {
+        switch ($this->type) {
+            case 'sick':
+                return "<span class='badge badge-warning'>Sakit</span>";
+
+            case 'paid_leave':
+                return "<span class='badge badge-info'>Cuti</span>";
+
+            case 'permission':
+                return "<span class='badge badge-light'>Izin</span>";
+
+            case 'not_present':
+                return "<span class='badge badge-danger'>Tidak Hadir</span>";
+
+            default:
+                return "<span class='badge badge-success'>Masuk</span>";
+        }
+    }
 }

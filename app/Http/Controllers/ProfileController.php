@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Image;
 
 class ProfileController extends Controller
 {
@@ -33,9 +34,16 @@ class ProfileController extends Controller
 
         if (!is_null($request->photo)) {
             $file = $request->file('photo');
-            $path = Storage::putFile('photos', $file);
+            $path = $file->hashName('photos');
+
+            $image = Image::make($file);
+            $image->fit(300, 300, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            Storage::put($path, (string) $image->encode());
             $user->photo = $path;
         }
+
 
         $user->address = $request->address;
         $user->email = $request->email;

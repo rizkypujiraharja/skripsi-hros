@@ -14,8 +14,9 @@ Route::group(['middleware' => ['auth']], function () {
 
 
 Route::group(
-    ['middleware' => ['auth', 'role:administrator|admin|keuangan'], 'namespace' => 'Admin'],
+    ['middleware' => ['auth', 'role:hrd']],
     function () {
         Route::resource('users', 'UserController');
+        Route::resource('attendances', 'AttendanceController');
     }
 );

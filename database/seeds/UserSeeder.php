@@ -21,7 +21,11 @@ class UserSeeder extends Seeder
         )->sortBy('nip')->values();
         $divisions = Division::all();
 
+        $join_date = now()->subYears(rand(1, 3));
+
         foreach ($usersCollection as $employee) {
+            $join_date = $join_date->addDays(rand(1, 14));
+            $join_at = $join_date->copy()->format('Y-m-d');
             $user = new User;
             $user->name = $employee->name;
             $user->email = str_replace(" ", "", strtolower($employee->name)) . '@ordivo.id';
@@ -35,6 +39,7 @@ class UserSeeder extends Seeder
             $user->sallary = $employee->sallary;
             $user->position = $employee->position;
             $user->division_id = $divisions->where('name', $employee->division)->first()->id;
+            $user->joined_at = $join_at;
             $user->save();
         }
     }

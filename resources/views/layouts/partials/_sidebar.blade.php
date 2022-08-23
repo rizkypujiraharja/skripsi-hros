@@ -8,6 +8,8 @@
         </div>
         <ul class="sidebar-menu">
             <li class="{{ request()->is('/') ? 'active' : '' }}"><a class="nav-link" href="{{ route('index') }}"><i class="fas fa-th-large"></i> <span>Dashboard</span></a></li>
+            <li class="{{ request()->is('users*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('users.index') }}"><i class="fas fa-users"></i> <span>Data Pegawai</span></a></li>
+            <li class="{{ request()->is('attendances*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('attendances.index') }}"><i class="fas fa-calendar"></i> <span>Data Kehadiran</span></a></li>
         </ul>
     </aside>
 </div>

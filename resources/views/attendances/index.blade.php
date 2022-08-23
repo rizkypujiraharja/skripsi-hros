@@ -4,10 +4,10 @@
   <div class="main-content">
     <section class="section">
       <div class="section-header">
-        <h1>Pegawai</h1>
+        <h1>Kehadiran</h1>
         <div class="section-header-breadcrumb">
           <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
-          <div class="breadcrumb-item"><a href="#">Pegawai</a></div>
+          <div class="breadcrumb-item"><a href="#">Kehadiran</a></div>
         </div>
       </div>
       <div class="section-body">
@@ -15,12 +15,9 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h4>Daftar Pegawai</h4>
+                <h4>Daftar Kehadiran</h4>
               </div>
               <div class="card-body">
-                <div class="float-left">
-                    <a href="{{ route('users.create') }}" class="btn btn-primary">Tambah Pegawai</a>
-                </div>
                 <div class="float-right">
                   <form action="" method="GET">
                     <div class="input-group">
@@ -37,29 +34,32 @@
                 <div class="table-responsive">
                   <table class="table table-striped">
                     <tr>
-                      <th>NIP</th>
-                      <th>Nama</th>
-                      <th>Posisi</th>
-                      <th>Divisi</th>
-                      <th>Email</th>
+                      <th>ID</th>
+                      <th>Pegawai</th>
+                      <th>Tipe</th>
+                      <th>Status</th>
+                      <th>Tanggal</th>
+                      <th>Jam</th>
                       <th>#</th>
                     </tr>
-                    @forelse ($users as $item)
+                    @forelse ($attendances as $item)
                     <tr>
-                        <td>{{ $item->nip }}</td>
-                        <td>{{ $item->name }}</td>
-                        <td>{{ $item->position }}</td>
-                        <td>{{ $item->division->name }}</td>
-                        <td>{{ $item->email }}</td>
+                        <td>{{ $item->id }}</td>
+                        <td>{{ $item->user->name }} ({{ $item->user->nip }})</td>
+                        <td>{!! $item->type_badge !!}</td>
+                        <td>{!! $item->status_badge !!}</td>
+                        <td>{{ $item->date }}</td>
+                        <td>{{ $item->time_in }}</td>
                         <td>
-                            <a href="{{ route('users.show', $item) }}" class="btn btn-sm btn-info"> <span class="fa fa-eye"></span></a>
-                            <a href="{{ route('users.edit', $item) }}" class="btn btn-sm btn-warning"> <span class="fa fa-edit"></span></a>
-                            <span data-title="{{ $item->name }}" href="{{ route('users.destroy', $item) }}" class="btn btn-sm btn-danger btn-delete"> <span class="fa fa-trash"></span></span>
+                            @if($item->status == 'pending')
+                            <span data-title="{{ $item->user->name }}" href="{{ route('attendances.update', $item) }}" class="btn btn-sm btn-success btn-approve"> Approve</span>
+                            <span data-title="{{ $item->user->name }}" href="{{ route('attendances.update', $item) }}" class="btn btn-sm btn-danger btn-reject"> Reject</span>
+                            @endif
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" align="center">
+                        <td colspan="6" align="center">
                             <div class="empty-state" data-height="400" style="height: 400px;">
                                 <div class="empty-state-icon">
                                   <i class="fas fa-question"></i>
@@ -75,7 +75,7 @@
                   </table>
                 </div>
                 <div class="float-right">
-                  {{ $users->links() }}
+                  {{ $attendances->links() }}
                 </div>
               </div>
             </div>
@@ -85,9 +85,10 @@
     </section>
   </div>
 
-<form action="" method="POST" id="deleteForm">
+<form action="" method="POST" id="updateForm">
     @csrf
-    @method('DELETE')
+    @method('PUT')
+    <input type="hidden" name="status" id="statusAttendance">
     <input type="submit" style="display: none;">
 </form>
 @endsection
@@ -95,22 +96,31 @@
 @section('js')
 
 <script type="text/javascript">
-    $('.btn-delete').on('click', function(){
-        var href = $(this).attr('href');
-        var title = $(this).data('title');
+    $('.btn-approve').on('click', function(){
+        $("#statusAttendance").val('approved');
+        update($(this).attr('href'), $(this).data('title'));
+    });
+
+
+    $('.btn-reject').on('click', function(){
+        $("#statusAttendance").val('rejected');
+        update($(this).attr('href'), $(this).data('title'));
+    });
+
+    function update(href, title) {
         swal({
-          title: "Anda yakin akan menghapus pegawai bernama "+ title +" ?",
+          title: "Anda yakin akan mengupdate data kehadiran "+ title +" ?",
           text: "Setelah dihapus data tidak dapat dikembalikan !",
           icon: "warning",
           buttons: true,
           dangerMode: true,
         })
-        .then((willDelete) => {
-          if (willDelete) {
-            $('#deleteForm').attr('action', href);
-            $('#deleteForm').submit();
+        .then((willUpdate) => {
+          if (willUpdate) {
+            $('#updateForm').attr('action', href);
+            $('#updateForm').submit();
           }
         });
-    });
+    }
     </script>
 @endsection

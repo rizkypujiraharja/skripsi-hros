@@ -25,7 +25,7 @@ class AttendanceSeeder extends Seeder
                 $attendance->date = $date;
                 $attendance->time_in = $date->hour(8)->addMinutes(rand(50, 70));
                 $attendance->status = 'approved';
-                $attendance->type = 'present';
+                $attendance->type = ['present', 'off'][rand(0, 1)];
                 $attendance->description = '';
                 $attendance->save();
             }
