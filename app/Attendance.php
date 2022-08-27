@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Attendance extends Model
 {
@@ -50,5 +51,14 @@ class Attendance extends Model
             default:
                 return "<span class='badge badge-success'>Masuk</span>";
         }
+    }
+
+    public function getFileUrlAttribute()
+    {
+        if ($this->file) {
+            return Storage::url($this->file);
+        }
+
+        return null;
     }
 }

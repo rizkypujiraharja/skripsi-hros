@@ -10,6 +10,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/profile', 'ProfileController@edit')->name('profile');
     Route::put('/profile', 'ProfileController@update')->name('profile.update');
     Route::get('/', 'HomeController@index')->name('index');
+
+    Route::resource('/my-attendances', 'MyAttendanceController');
 });
 
 

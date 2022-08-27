@@ -59,7 +59,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" align="center">
+                        <td colspan="8" align="center">
                             <div class="empty-state" data-height="400" style="height: 400px;">
                                 <div class="empty-state-icon">
                                   <i class="fas fa-question"></i>

@@ -67,4 +67,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Division::class);
     }
+
+    public function isHrd()
+    {
+        return $this->role == 'hrd';
+    }
+
+    public function isFinance()
+    {
+        return $this->role == 'hrd';
+    }
 }
