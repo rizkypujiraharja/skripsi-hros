@@ -96,7 +96,7 @@
               Don't have an account? <a href="auth-register.html">Create One</a>
             </div> --}}
             <div class="simple-footer">
-                Copyright &copy; 2020 <div class="bullet"></div> PT. Ordivo Teknologi Indonesia
+                Copyright &copy; 2022 <div class="bullet"></div> PT. Ordivo Teknologi Indonesia
             </div>
           </div>
         </div>
