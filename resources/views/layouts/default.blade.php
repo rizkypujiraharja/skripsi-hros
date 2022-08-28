@@ -49,6 +49,7 @@
 <script src="{{ asset('/stisla-2.2.0/dist/assets/modules/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('/stisla-2.2.0/dist/assets/modules/nicescroll/jquery.nicescroll.min.js') }}"></script>
 <script src="{{ asset('/stisla-2.2.0/dist/assets/modules/moment.min.js') }}"></script>
+<script src="{{ asset('/stisla-2.2.0/dist/assets/modules/chart.min.js') }}"></script>
 <script src="{{ asset('/stisla-2.2.0/dist/assets/js/stisla.js') }}"></script>
 
 <!-- Plugins -->
