@@ -158,4 +158,15 @@ class UserController extends Controller
 
         return redirect()->route('users.index')->with('alert-success', 'Berhasil menghapus data pegawai');
     }
+
+    public function overview(Request $request, User $user)
+    {
+        $overview = $user->getOverview();
+        return view('users.overview', $overview);
+    }
+
+    public function slip(Request $request, User $user)
+    {
+        # code...
+    }
 }

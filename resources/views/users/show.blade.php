@@ -16,34 +16,92 @@
       </div>
       <div class="section-body">
         <div class="row mt-4">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h4>Data Pegawai</h4>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                    @if($user->photo_url)
-                    <div class="col-md-4">
-                        <center>
-                        <img src="{{ $user->photo_url }}" class="img-fluid">
-                        </center>
-                    </div>
-                    @endif
-                    <div class="col-md-8">
-                        <table class="table">
-                            <tr><td>{{ $user->name }}</td></tr>
-                            <tr><td>{{ $user->nip }}</td></tr>
-                            <tr><td>{{ optional($user->jabatan)->name ?? "-" }}</td></tr>
-                            <tr><td>{{ $user->phone }}</td></tr>
-                            <tr><td>{{ $user->email }}</td></tr>
-                            <tr><td>{{ $user->address }}</td></tr>
-                        </table>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="nav nav-pills flex-column">
+                        <li class="nav-item"><a href="#" class="nav-link active">Profile</a></li>
+                        <li class="nav-item"><a href="{{ route('users.overview', $user) }}" class="nav-link">Overview</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">Slip Gaji</a></li>
+                        </ul>
                     </div>
                 </div>
-              </div>
             </div>
-          </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            @if($user->photo_url)
+                            <div class="col-md-4">
+                                <center>
+                                <img src="{{ $user->photo_url }}" class="img-fluid">
+                                </center>
+                            </div>
+                            @endif
+                            <div class="col-md-8">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td>Nama</td>
+                                        <td>{{ $user->name }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email</td>
+                                        <td>{{ $user->email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>NIP</td>
+                                        <td>{{ $user->nip }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>KTP</td>
+                                        <td>{{ $user->ktp }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>NPWP</td>
+                                        <td>{{ $user->npwp }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Alamat</td>
+                                        <td>{{ $user->address }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Tanggal Lahir</td>
+                                        <td>{{ $user->birth_date }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Divisi</td>
+                                        <td>{{ $user->division->name }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Posisi</td>
+                                        <td>{{ $user->position }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Gaji Pokok</td>
+                                        <td>{{ $user->sallary_rupiah }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Tanggal Mulai Kontrak</td>
+                                        <td>{{ $user->joined_at }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Tanggal Akhir Kontrak</td>
+                                        <td>{{ $user->contract_until ?? '-' }}</td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
       </div>
     </section>

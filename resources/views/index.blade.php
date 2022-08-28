@@ -16,7 +16,7 @@
             </div>
 
             <div class="section-body">
-                @include('employee')
+                @include('employee-overview')
             </div>
         </section>
     </div>
