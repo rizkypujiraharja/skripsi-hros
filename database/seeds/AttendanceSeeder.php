@@ -23,7 +23,7 @@ class AttendanceSeeder extends Seeder
                 $attendance = new Attendance;
                 $attendance->user_id = $employee->id;
                 $attendance->date = $date;
-                $attendance->time_in = $date->hour(8)->addMinutes(rand(50, 70));
+                $attendance->time_in = $date->hour(8)->startOfHour()->addMinutes(rand(50, 70));
                 $attendance->status = 'approved';
                 $attendance->type = 'attend';
                 $attendance->description = '';

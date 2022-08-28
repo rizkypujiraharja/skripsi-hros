@@ -52,6 +52,8 @@ class HomeController extends Controller
             'not_present' => $totalNotPresent,
         ];
 
-        return view('index', compact('user', 'total'));
+        $period = $joinAt->format('Y-m-d') . ' s/d ' . date('Y-m-d');
+
+        return view('index', compact('user', 'total', 'period'));
     }
 }

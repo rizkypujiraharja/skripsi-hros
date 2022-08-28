@@ -1,16 +1,5 @@
 <div class="row">
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-                <img alt="image" src="{{ $user->photo_url }}" class="img-fluid" data-toggle="tooltip" title="" data-original-title="Danny Stenvenson">
-                <div class="text-center mt-4">
-                    <h6 class="mb-0">{{ $user->name }}</h6>
-                    <small>{{ $user->email }}</small>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
               <div class="card card-statistic-1">
