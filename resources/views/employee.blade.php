@@ -66,8 +66,11 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
+                    <div class="card-header">
+                        <h4>Statistik Jam Masuk</h4>
+                    </div>
                     <div class="card-body">
-                        <canvas id="myChart" height="100"></canvas>
+                        <canvas id="myChart" height="80"></canvas>
                     </div>
                 </div>
             </div>
