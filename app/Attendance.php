@@ -45,7 +45,7 @@ class Attendance extends Model
             case 'permission':
                 return "<span class='badge badge-light'>Izin</span>";
 
-            case 'not_present':
+            case 'not_attend':
                 return "<span class='badge badge-danger'>Tidak Hadir</span>";
 
             default:

@@ -11,6 +11,10 @@ class AttendanceController extends Controller
     {
         $attendances = Attendance::with('user')->latest();
 
+        if ($request->type) {
+            $attendances->where('type', $request->type);
+        }
+
         $attendances = $attendances->paginate()->withQueryString();
 
         return view('attendances.index', compact('attendances'));

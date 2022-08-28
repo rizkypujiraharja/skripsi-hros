@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Attendance;
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -12,6 +14,10 @@ class MyAttendanceController extends Controller
     public function index(Request $request)
     {
         $attendances = Attendance::orderBy('date', 'desc')->where('user_id', Auth::id());
+
+        if ($request->type) {
+            $attendances->where('type', $request->type);
+        }
 
         $attendances = $attendances->paginate()->withQueryString();
 
@@ -30,6 +36,12 @@ class MyAttendanceController extends Controller
 
                 Storage::put($imageName, base64_decode($file_data));
 
+                Attendance::where('date', date('Y-m-d'))
+                    ->where('user_id', $user_id)
+                    ->update([
+                        'status' => 'rejected'
+                    ]);
+
                 $attendance = new Attendance();
                 $attendance->user_id = $user_id;
                 $attendance->type = $request->type;
@@ -40,8 +52,35 @@ class MyAttendanceController extends Controller
                 $attendance->save();
                 break;
 
+
             default:
-                # code...
+                $start_date = Carbon::parse($request->start_date);
+                $end_date = Carbon::parse($request->end_date);
+                $period = CarbonPeriod::create($start_date, $end_date);
+
+                Attendance::where('date', '>=', $request->start_date)
+                    ->where('date', '<=', $request->end_date)
+                    ->where('user_id', $user_id)
+                    ->update([
+                        'status' => 'rejected'
+                    ]);
+
+                if ($request->type == 'sick') {
+                    $file = Storage::putFile('absensi', $request->file('file'));
+                }
+
+                foreach ($period as $date) {
+                    $attendance = new Attendance();
+                    if ($request->type == 'sick') {
+                        $attendance->file = $file;
+                    }
+                    $attendance->user_id = $user_id;
+                    $attendance->type = $request->type;
+                    $attendance->date = $date->format('Y-m-d');
+                    $attendance->time_in = date('H:i');
+                    $attendance->status = 'pending';
+                    $attendance->save();
+                }
                 break;
         }
 

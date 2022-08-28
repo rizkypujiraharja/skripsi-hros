@@ -20,11 +20,14 @@
               <div class="card-body">
                 <div class="float-right">
                   <form action="" method="GET">
-                    <div class="input-group">
-                      <input type="text" class="form-control" name="search" placeholder="Search" value="{{ request()->search }}">
-                      <div class="input-group-append">
-                        <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-                      </div>
+                    <div class="d-flex">
+                        <select name="type" class="form-control mr-3" onchange="this.form.submit()">
+                            <option value="">Pilih Tipe</option>
+                            <option value="attend" {{ request()->type == 'attend' ? 'selected' : '' }}>Masuk</option>
+                            <option value="permission" {{ request()->type == 'permission' ? 'selected' : '' }}>Izin</option>
+                            <option value="sick" {{ request()->type == 'sick' ? 'selected' : '' }}>Sakit</option>
+                            <option value="not_attend" {{ request()->type == 'not_attend' ? 'selected' : '' }}>Tidak Hadir</option>
+                        </select>
                     </div>
                   </form>
                 </div>
@@ -45,7 +48,7 @@
                     @forelse ($attendances as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
-                        <td>{{ $item->user->name }} ({{ $item->user->nip }})</td>
+                        <td>{{ $item->user->name }}</td>
                         <td>{!! $item->type_badge !!}</td>
                         <td>{!! $item->status_badge !!}</td>
                         <td>{{ $item->date }}</td>
