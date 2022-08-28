@@ -16,19 +16,20 @@ class AttendanceSeeder extends Seeder
      */
     public function run()
     {
-        $period = CarbonPeriod::create(now()->subMonth()->startOfMonth(), now());
+        $period = CarbonPeriod::create(now()->subDays(7), now());
         $employees = User::all();
-        $employees->each(function ($employee) use ($period) {
-            foreach ($period as $date) {
+        foreach ($period as $date) {
+            $employees->each(function ($employee) use ($date) {
                 $attendance = new Attendance;
                 $attendance->user_id = $employee->id;
                 $attendance->date = $date;
                 $attendance->time_in = $date->hour(8)->addMinutes(rand(50, 70));
                 $attendance->status = 'approved';
-                $attendance->type = ['attend', 'not_attend'][rand(0, 1)];
+                $attendance->type = 'attend';
                 $attendance->description = '';
                 $attendance->save();
-            }
-        });
+                usleep(600000);
+            });
+        }
     }
 }

@@ -13,7 +13,8 @@ class MyAttendanceController extends Controller
 {
     public function index(Request $request)
     {
-        $attendances = Attendance::orderBy('date', 'desc')->where('user_id', Auth::id());
+        $attendances = Attendance::orderBy('date', 'desc')->latest()
+            ->where('user_id', Auth::id());
 
         if ($request->type) {
             $attendances->where('type', $request->type);

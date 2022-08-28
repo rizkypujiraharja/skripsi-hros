@@ -11,7 +11,7 @@ class AttendanceController extends Controller
 {
     public function index(Request $request)
     {
-        $attendances = Attendance::with('user')->latest();
+        $attendances = Attendance::with('user')->orderBy('date', 'desc')->latest();
 
         if ($request->type) {
             $attendances->where('type', $request->type);
