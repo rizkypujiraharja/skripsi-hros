@@ -19,6 +19,7 @@ Route::group(
     ['middleware' => ['auth', 'role:hrd']],
     function () {
         Route::resource('users', 'UserController');
-        Route::resource('attendances', 'AttendanceController');
+        Route::resource('attendances', 'AttendanceController')->only(['index', 'update']);
+        Route::get('attendances/process-not-present', 'AttendanceController@processNotPresent')->name('attendances.process-not-present');
     }
 );

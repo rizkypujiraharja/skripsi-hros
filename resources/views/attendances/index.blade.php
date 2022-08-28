@@ -18,18 +18,18 @@
                 <h4>Daftar Kehadiran</h4>
               </div>
               <div class="card-body">
-                <div class="float-right">
-                  <form action="" method="GET">
-                    <div class="d-flex">
-                        <select name="type" class="form-control mr-3" onchange="this.form.submit()">
-                            <option value="">Pilih Tipe</option>
-                            <option value="attend" {{ request()->type == 'attend' ? 'selected' : '' }}>Masuk</option>
-                            <option value="permission" {{ request()->type == 'permission' ? 'selected' : '' }}>Izin</option>
-                            <option value="sick" {{ request()->type == 'sick' ? 'selected' : '' }}>Sakit</option>
-                            <option value="not_attend" {{ request()->type == 'not_attend' ? 'selected' : '' }}>Tidak Hadir</option>
-                        </select>
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ route('attendances.process-not-present') }}" class="btn btn-primary" >Cek Ketidakhadiran</a>
+                        <form action="" method="GET">
+                            <select name="type" class="form-control mr-3" onchange="this.form.submit()">
+                                <option value="">Pilih Tipe</option>
+                                <option value="attend" {{ request()->type == 'attend' ? 'selected' : '' }}>Masuk</option>
+                                <option value="permission" {{ request()->type == 'permission' ? 'selected' : '' }}>Izin</option>
+                                <option value="sick" {{ request()->type == 'sick' ? 'selected' : '' }}>Sakit</option>
+                                <option value="not_attend" {{ request()->type == 'not_attend' ? 'selected' : '' }}>Tidak Hadir</option>
+                            </select>
+                        </form>
                     </div>
-                  </form>
                 </div>
 
                 <div class="clearfix mb-3"></div>
@@ -43,6 +43,7 @@
                       <th>Status</th>
                       <th>Tanggal</th>
                       <th>Jam</th>
+                      <th>Lampiran</th>
                       <th>#</th>
                     </tr>
                     @forelse ($attendances as $item)
@@ -52,7 +53,16 @@
                         <td>{!! $item->type_badge !!}</td>
                         <td>{!! $item->status_badge !!}</td>
                         <td>{{ $item->date }}</td>
-                        <td>{{ $item->time_in }}</td>
+                        <td>{{ $item->type == 'attend' ? $item->time_in : '-' }}</td>
+                        <td>
+                            @if($item->file_url)
+                            <a href="{{ $item->file_url }}" target="_blank">
+                                <img src="{{ $item->file_url }}" alt="" width="50">
+                            </a>
+                            @else
+                            -
+                            @endif
+                        </td>
                         <td>
                             @if($item->status == 'pending')
                             <span data-title="{{ $item->user->name }}" href="{{ route('attendances.update', $item) }}" class="btn btn-sm btn-success btn-approve"> Approve</span>
