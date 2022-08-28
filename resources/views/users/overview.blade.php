@@ -16,7 +16,7 @@
       </div>
       <div class="section-body">
         <div class="row mt-4">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
                         <ul class="nav nav-pills flex-column">
@@ -27,12 +27,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        @include('employee-overview')
-                    </div>
-                </div>
+            <div class="col-md-9">
+                @include('employee-overview')
             </div>
         </div>
       </div>
