@@ -21,8 +21,8 @@
                     <div class="card-body">
                         <ul class="nav nav-pills flex-column">
                         <li class="nav-item"><a href="{{ route('users.show', $user) }}" class="nav-link">Profile</a></li>
-                        <li class="nav-item"><a href="" class="nav-link active">Overview</a></li>
-                        <li class="nav-item"><a href="{{ route('users.attendances', $user) }}" class="nav-link">Kehadiran</a></li>
+                        <li class="nav-item"><a href="{{ route('users.overview', $user) }}" class="nav-link">Overview</a></li>
+                        <li class="nav-item"><a href="" class="nav-link active">Kehadiran</a></li>
                         <li class="nav-item"><a href="#" class="nav-link">Slip Gaji</a></li>
                         </ul>
                     </div>

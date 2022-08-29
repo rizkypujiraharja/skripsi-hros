@@ -21,7 +21,7 @@
                 <div class="d-flex justify-content-between">
                     <div class="dropdown d-inline mr-2">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Tambah Absensi
+                            Input Kehadiran
                         </button>
                         <div class="dropdown-menu" x-placement="top-start" style="position: absolute; transform: translate3d(0px, -133px, 0px); top: 0px; left: 0px; will-change: transform;">
                             <a class="dropdown-item" href="#" id="btn-masuk" data-toggle="modal" data-target="#modalMasuk">Masuk</a>

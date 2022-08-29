@@ -49,7 +49,7 @@
                     @forelse ($attendances as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
-                        <td>{{ $item->user->name }}</td>
+                        <td><a href="{{ route('users.show', $item->user) }}">{{ $item->user->name }}</a></td>
                         <td>{!! $item->type_badge !!}</td>
                         <td>{!! $item->status_badge !!}</td>
                         <td>{{ $item->date }}</td>
