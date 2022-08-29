@@ -117,7 +117,7 @@ class User extends Authenticatable
             ->count();
 
         $totalNotPresent = Attendance::where('user_id', $user->id)
-            ->where('type', 'net_attend')
+            ->where('type', 'not_attend')
             ->where('date', '>=', $joinAt)
             ->where('date', '<=', now())
             ->count();
