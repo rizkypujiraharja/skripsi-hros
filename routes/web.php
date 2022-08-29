@@ -14,7 +14,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/my-attendances', 'MyAttendanceController');
 });
 
-
 Route::group(
     ['middleware' => ['auth', 'role:hrd']],
     function () {
@@ -24,5 +23,16 @@ Route::group(
         Route::get('users/{user}/attendances', 'UserController@attendances')->name('users.attendances');
         Route::resource('attendances', 'AttendanceController')->only(['index', 'update']);
         Route::get('attendances/process-not-present', 'AttendanceController@processNotPresent')->name('attendances.process-not-present');
+    }
+);
+
+
+Route::group(
+    ['middleware' => ['auth', 'role:finance']],
+    function () {
+        Route::get('salaries', 'SallaryController@index')->name('sallaries.index');
+        Route::get('salaries/download-sample', 'SallaryController@downloadSample')->name('sallaries.sample');
+        Route::post('salaries/import', 'SallaryController@import')->name('sallaries.import');
+        Route::get('salaries/{sallary}/slip', 'SallaryController@slip')->name('sallaries.slip');
     }
 );

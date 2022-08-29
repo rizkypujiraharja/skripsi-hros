@@ -29,7 +29,6 @@ class CreateSallariesTable extends Migration
             $table->bigInteger('bpjs');
             $table->bigInteger('position_allowance');
             $table->bigInteger('receivable_employee');
-            $table->string('status');
             $table->timestamps();
         });
     }

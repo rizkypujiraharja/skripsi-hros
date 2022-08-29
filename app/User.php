@@ -76,7 +76,7 @@ class User extends Authenticatable
 
     public function isFinance()
     {
-        return $this->role == 'hrd';
+        return $this->role == 'finance';
     }
 
     public function getSallaryRupiahAttribute()

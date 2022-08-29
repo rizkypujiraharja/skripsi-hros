@@ -13,6 +13,10 @@
             <li class="{{ request()->is('attendances*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('attendances.index') }}"><i class="fas fa-calendar"></i> <span>Data Kehadiran</span></a></li>
             @endif
 
+            @if(auth()->user()->isFinance())
+            <li class="{{ request()->is('salaries*') ? 'active' : '' }}"><a class="nav-link" href="{{ route('sallaries.index') }}"><i class="fas fa-dollar-sign"></i> <span>Penggajian</span></a></li>
+            @endif
+
             <li class="{{ request()->is('my-attendances') ? 'active' : '' }}"><a class="nav-link" href="{{ route('my-attendances.index') }}"><i class="fas fa-sign-in-alt"></i> <span>Absensi</span></a></li>
         </ul>
     </aside>
