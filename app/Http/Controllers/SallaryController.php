@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SallaryReport;
 use App\Exports\SampleSallaryReport;
 use App\Imports\SallariesImport;
 use App\Sallary;
@@ -51,5 +52,16 @@ class SallaryController extends Controller
         }
 
         return Excel::download(new SampleSallaryReport($users), 'Data Penggajian.xlsx');
+    }
+
+    public function export(Request $request)
+    {
+        $sallaries = Sallary::where('month', $request->month)->where('year', $request->year)->get();
+
+        $months = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+        $periode = $months[$request->month] . ' ' . $request->year;
+
+        return Excel::download(new SallaryReport($sallaries), 'Data Penggajian Periode ' . $periode . '.xlsx');
     }
 }

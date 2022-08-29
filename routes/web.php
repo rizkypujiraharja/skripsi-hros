@@ -33,6 +33,7 @@ Route::group(
         Route::get('salaries', 'SallaryController@index')->name('sallaries.index');
         Route::get('salaries/download-sample', 'SallaryController@downloadSample')->name('sallaries.sample');
         Route::post('salaries/import', 'SallaryController@import')->name('sallaries.import');
+        Route::post('salaries/export', 'SallaryController@export')->name('sallaries.export');
         Route::get('salaries/{sallary}/slip', 'SallaryController@slip')->name('sallaries.slip');
     }
 );

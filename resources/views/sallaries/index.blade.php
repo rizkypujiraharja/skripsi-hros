@@ -37,7 +37,6 @@
                             </div>
                         </form>
                     </div>
-                </div>
 
                 <div class="clearfix mb-3"></div>
 
@@ -131,7 +130,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('sallaries.import') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('sallaries.export') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group row align-items-center">
                         <label for="site-title" class="form-control-label col-md-3 text-md-right">Bulan</label>
