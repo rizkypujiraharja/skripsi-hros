@@ -97,29 +97,24 @@ class User extends Authenticatable
             ->where('status', '!=', 'rejected')
             ->where('type', 'paid_leave')
             ->where('date', '>=', $joinAt)
-            ->where('date', '<=', now())
             ->count();
 
         $remainingPaidLeave = 12 - $totalPaidLeave;
-
         $totalSick = Attendance::where('user_id', $user->id)
             ->where('status', '!=', 'rejected')
             ->where('type', 'sick')
             ->where('date', '>=', $joinAt)
-            ->where('date', '<=', now())
             ->count();
 
         $totalPermission = Attendance::where('user_id', $user->id)
             ->where('status', '!=', 'rejected')
             ->where('type', 'permission')
             ->where('date', '>=', $joinAt)
-            ->where('date', '<=', now())
             ->count();
 
         $totalNotPresent = Attendance::where('user_id', $user->id)
             ->where('type', 'not_attend')
             ->where('date', '>=', $joinAt)
-            ->where('date', '<=', now())
             ->count();
 
         $total = [
@@ -136,14 +131,12 @@ class User extends Authenticatable
             ->where('type', 'attend')
             ->where('status', 'approved')
             ->where('date', '>=', $joinAt)
-            ->where('date', '<=', now())
             ->count();
 
         $stats[] = Attendance::where('user_id', $user->id)
             ->where('type', 'attend')
             ->where('status', 'approved')
             ->where('date', '>=', $joinAt)
-            ->where('date', '<=', now())
             ->where('time_in', '>', '08:30')
             ->where('time_in', '<=', '08:45')
             ->count();
@@ -152,7 +145,6 @@ class User extends Authenticatable
             ->where('type', 'attend')
             ->where('status', 'approved')
             ->where('date', '>=', $joinAt)
-            ->where('date', '<=', now())
             ->where('time_in', '>', '08:45')
             ->where('time_in', '<=', '09:00')
             ->count();
@@ -161,7 +153,6 @@ class User extends Authenticatable
             ->where('type', 'attend')
             ->where('status', 'approved')
             ->where('date', '>=', $joinAt)
-            ->where('date', '<=', now())
             ->where('time_in', '>', '09:00')
             ->where('time_in', '<=', '09:15')
             ->count();
@@ -170,7 +161,6 @@ class User extends Authenticatable
             ->where('type', 'attend')
             ->where('status', 'approved')
             ->where('date', '>=', $joinAt)
-            ->where('date', '<=', now())
             ->where('time_in', '>', '09:15')
             ->where('time_in', '<=', '09:30')
             ->count();
@@ -180,7 +170,6 @@ class User extends Authenticatable
             ->where('type', 'attend')
             ->where('status', 'approved')
             ->where('date', '>=', $joinAt)
-            ->where('date', '<=', now())
             ->where('time_in', '>', '09:30')
             ->count();
 
