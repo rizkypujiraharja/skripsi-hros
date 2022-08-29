@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Attendance;
 use App\Division;
 use App\Models\Jabatan;
 use Illuminate\Http\Request;
@@ -168,5 +169,19 @@ class UserController extends Controller
     public function slip(Request $request, User $user)
     {
         # code...
+    }
+
+    public function attendances(Request $request, User $user)
+    {
+        $attendances = Attendance::orderBy('date', 'desc')->latest()
+            ->where('user_id', $user->id);
+
+        if ($request->type) {
+            $attendances->where('type', $request->type);
+        }
+
+        $attendances = $attendances->paginate()->withQueryString();
+
+        return view('users.attendances', compact('attendances', 'user'));
     }
 }

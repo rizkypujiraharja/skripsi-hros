@@ -21,6 +21,7 @@ Route::group(
         Route::resource('users', 'UserController');
         Route::get('users/{user}/overview', 'UserController@overview')->name('users.overview');
         Route::get('users/{user}/slip', 'UserController@slip')->name('users.slip');
+        Route::get('users/{user}/attendances', 'UserController@attendances')->name('users.attendances');
         Route::resource('attendances', 'AttendanceController')->only(['index', 'update']);
         Route::get('attendances/process-not-present', 'AttendanceController@processNotPresent')->name('attendances.process-not-present');
     }
