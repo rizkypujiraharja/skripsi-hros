@@ -28,6 +28,7 @@ class MyAttendanceController extends Controller
     public function store(Request $request)
     {
         $user_id = Auth::id();
+        $user = Auth::user();
 
         switch ($request->type) {
             case 'attend':
@@ -58,6 +59,23 @@ class MyAttendanceController extends Controller
                 $start_date = Carbon::parse($request->start_date);
                 $end_date = Carbon::parse($request->end_date);
                 $period = CarbonPeriod::create($start_date, $end_date);
+
+                $totalDay = count($period);
+                $joinAt = Carbon::parse($user->joined_at)->year(date('Y'));
+                if ($joinAt > now()) {
+                    $joinAt = Carbon::parse($user->joined_at)->year(date('Y') - 1);
+                }
+
+                $totalPaidLeave = Attendance::where('user_id', $user->id)
+                    ->where('status', '!=', 'rejected')
+                    ->where('type', 'paid_leave')
+                    ->where('date', '>=', $joinAt)
+                    ->count();
+
+                $remainingPaidLeave = 12 - $totalPaidLeave;
+                if ($totalDay > $remainingPaidLeave && $request->type == 'paid_leave') {
+                    return redirect()->back()->with('alert-error', 'Jumlah pengajuan melebihi sisa cuti');
+                }
 
                 Attendance::where('date', '>=', $request->start_date)
                     ->where('date', '<=', $request->end_date)
