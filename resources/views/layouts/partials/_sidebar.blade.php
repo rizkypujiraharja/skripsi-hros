@@ -18,6 +18,7 @@
             @endif
 
             <li class="{{ request()->is('my-attendances') ? 'active' : '' }}"><a class="nav-link" href="{{ route('my-attendances.index') }}"><i class="fas fa-sign-in-alt"></i> <span>Absensi</span></a></li>
+            <li class="{{ request()->is('my-salaries') ? 'active' : '' }}"><a class="nav-link" href="{{ route('my-salaries.index') }}"><i class="fas fa-credit-card"></i> <span>Slip Gaji</span></a></li>
         </ul>
     </aside>
 </div>

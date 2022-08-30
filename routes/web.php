@@ -12,6 +12,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', 'HomeController@index')->name('index');
 
     Route::resource('/my-attendances', 'MyAttendanceController');
+    Route::resource('/my-salaries', 'MySallaryController');
 });
 
 Route::group(
