@@ -16,7 +16,7 @@ class SallariesImport implements ToCollection
 
         foreach ($rows as $index => $row) {
             if ($index) {
-                $user = User::find($row[0]);
+                $user = User::where('nip', $row[0])->first();
                 if ($user) {
                     $position_allowance = 5 / 100 * $user->sallary;
                     $bpjs = 5 / 100 * $user->sallary;

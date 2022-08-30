@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Attendance;
 use App\Division;
 use App\Models\Jabatan;
+use App\Sallary;
 use Illuminate\Http\Request;
 use App\User;
 use Image;
@@ -168,7 +169,14 @@ class UserController extends Controller
 
     public function slip(Request $request, User $user)
     {
-        # code...
+        $sallaries = Sallary::orderBy('year', 'desc')
+            ->orderBy('month', 'desc')
+            ->latest()
+            ->where('user_id', $user->id);
+
+        $sallaries = $sallaries->paginate()->withQueryString();
+
+        return view('users.sallaries', compact('sallaries', 'user'));
     }
 
     public function attendances(Request $request, User $user)
