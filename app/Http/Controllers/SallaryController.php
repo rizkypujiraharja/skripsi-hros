@@ -7,7 +7,9 @@ use App\Exports\SampleSallaryReport;
 use App\Imports\SallariesImport;
 use App\Sallary;
 use App\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SallaryController extends Controller
@@ -63,5 +65,22 @@ class SallaryController extends Controller
         $periode = $months[$request->month] . ' ' . $request->year;
 
         return Excel::download(new SallaryReport($sallaries), 'Data Penggajian Periode ' . $periode . '.xlsx');
+    }
+
+    public function slip(Request $request, Sallary $sallary)
+    {
+        $user = Auth::user();
+        if ($user->isEmployee()) {
+            if ($user->id != $sallary->user_id) {
+                abort(403);
+            }
+        }
+
+        $sallary->load('user');
+
+        $logo = base64_encode(file_get_contents(public_path('/logo.png')));
+
+        $pdf = Pdf::loadView('pdf.slip', compact('sallary', 'logo'))->setPaper('a5', 'landscape');
+        return $pdf->download('Slip Gaji ' . $sallary->user->name . ' ' . $sallary->periode() . '.pdf');
     }
 }

@@ -13,6 +13,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('/my-attendances', 'MyAttendanceController');
     Route::resource('/my-salaries', 'MySallaryController');
+    Route::get('salaries/{sallary}/slip', 'SallaryController@slip')->name('sallaries.slip');
 });
 
 Route::group(
@@ -35,6 +36,5 @@ Route::group(
         Route::get('salaries/download-sample', 'SallaryController@downloadSample')->name('sallaries.sample');
         Route::post('salaries/import', 'SallaryController@import')->name('sallaries.import');
         Route::post('salaries/export', 'SallaryController@export')->name('sallaries.export');
-        Route::get('salaries/{sallary}/slip', 'SallaryController@slip')->name('sallaries.slip');
     }
 );

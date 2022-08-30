@@ -79,6 +79,11 @@ class User extends Authenticatable
         return $this->role == 'finance';
     }
 
+    public function isEmployee()
+    {
+        return $this->role == 'employee';
+    }
+
     public function getSallaryRupiahAttribute()
     {
         return 'Rp. ' . number_format($this->sallary, 0, ',', '.');

@@ -19,6 +19,7 @@ class SallariesImport implements ToCollection
                 $user = User::where('nip', $row[0])->first();
                 if ($user) {
                     $position_allowance = 5 / 100 * $user->sallary;
+                    $position_allowance = $position_allowance < 500000 ? $position_allowance : 500000;
                     $bpjs = 5 / 100 * $user->sallary;
                     $jht = 5.7 / 100 * $user->sallary;
                     $pph21 = 0;
@@ -40,7 +41,7 @@ class SallariesImport implements ToCollection
                     $salary->pph21 = $row[5];
                     $salary->jht = $jht;
                     $salary->bpjs = $bpjs;
-                    $salary->position_allowance = $position_allowance < 500000 ? $position_allowance : 500000;
+                    $salary->position_allowance = $position_allowance;
                     $salary->employer_pays_fee = $employer_pays_fee;
                     $salary->receivable_employee = 0;
                     $salary->status = 'paid';
